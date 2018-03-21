@@ -3,7 +3,8 @@ function [ nextBoard, value ] = searchTree(board, turn, agentTurn, depth)
     [ score ] = gameStatus(board, agentTurn);
     if ( score == 10 || score == -10 || depth == 0)
         nextBoard = board;
-        value = score;
+        stepDistance = findShortestPath( board, agentTurn );
+        value = score + ( 1/stepDistance );
         return;
     end
     
@@ -13,11 +14,13 @@ function [ nextBoard, value ] = searchTree(board, turn, agentTurn, depth)
     valuesList = zeros(1, l);
            
     for i=1:l
-        nextTurn = changeTurn(turn);
+        nextTurn = changeTurn( turn );
         [ bestBoard, resultValue ] = searchTree( children(:, :, i), nextTurn, agentTurn, depth );
         valuesList(1, i) = resultValue;
     end
     
+    turn
+    valuesList
     if( turn == agentTurn )
         [ min_max index ] = max(valuesList);
     else

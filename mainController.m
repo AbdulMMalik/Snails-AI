@@ -3,17 +3,17 @@ rows = 8; cols = 8;
 board = initializeBoard(rows, cols);
 board(1, 8) = 22;
 board(8, 1) = 11;
-grid = boardToGrid(board);
+grid = boardToGrid( board );
 
 
-imshow(grid);
+imshow( grid );
 
 turn = 11;
 agentTurn = 22;
 depth = 5;
 
 while 1
-   if(turn == 11) 
+   if(turn == 11)
       [x, y] = ginput(1);
       temp = y;
       y = floor(x/100)+1;
@@ -31,7 +31,7 @@ while 1
           turn = changeTurn(turn);
       end
    else
-      [ board, value ] = searchTree(board, turn, agentTurn, depth)
+      [ board, value ] = searchTree(board, turn, agentTurn, depth);
       turn = changeTurn(turn);
        %{
        [x, y] = ginput(1);
