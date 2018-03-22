@@ -4,12 +4,15 @@ function [ nextBoard, value, myScore ] = searchTree(board, turn, agentTurn, dept
     [ score ] = gameStatus( board, agentTurn );
     if ( score == 10 || score == -10 || depth == 0 )
         nextBoard = board;
+        %stepDistance = findShortestPath( board, agentTurn );
         if turn ~= agentTurn
-            myScore = scoreOpp;
+            % scoreAgent = value;
             value = scoreOpp;
+            myScore = value;
         else
-            myScore = scoreAgent;
+            %scoreAgent = value;
             value = scoreAgent;
+            myScore = value;
         end
         return;
     end
@@ -24,9 +27,9 @@ function [ nextBoard, value, myScore ] = searchTree(board, turn, agentTurn, dept
     for i=1:l
         % nextTurn = changeTurn( turn );
         if nextTurn ~= agentTurn
-            [ bestBoard, resultValue, NaN ] = searchTree( children(:, :, i), nextTurn, agentTurn, depth, scores(1, i), scoreOpp );
+            [ bestBoard, resultValue, _ ] = searchTree( children(:, :, i), nextTurn, agentTurn, depth, scores(1, i), scoreOpp );
         else
-            [ bestBoard, resultValue, NaN ] = searchTree( children(:, :, i), nextTurn, agentTurn, depth, scoreAgent, scores(1, i) );
+            [ bestBoard, resultValue, myScoreAgent ] = searchTree( children(:, :, i), nextTurn, agentTurn, depth, scoreAgent, scores(1, i) );
         end
         % valuesList(1, i) = resultValue;
     end
