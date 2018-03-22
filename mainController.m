@@ -12,6 +12,9 @@ turn = 11;
 agentTurn = 22;
 depth = 5;
 
+scoreOpp = 1;
+scoreAgent = 1;
+
 while 1
    if(turn == 11)
       [x, y] = ginput(1);
@@ -27,11 +30,16 @@ while 1
           board(xx, yy) = 1;
           %check sliding
           [ x, y ] = slideSnail( board, x, y, turn, movement );
+          if board(x, y) ~= 1
+              scoreOpp = scoreOpp + 1;
+          end
           board(x, y) = 11;
           turn = changeTurn(turn);
+          
+          disp(scoreOpp)
       end
    else
-      [ board, value ] = searchTree(board, turn, agentTurn, depth);
+      [ board, value ] = searchTree(board, turn, agentTurn, depth, scoreAgent, scoreOpp);
       turn = changeTurn(turn);
        %{
        [x, y] = ginput(1);
