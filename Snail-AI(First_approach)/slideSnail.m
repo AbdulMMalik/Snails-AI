@@ -7,7 +7,7 @@ function [ tempX, tempY ] = slideSnail( board, x, y, turn, movement )
     tempX = x; tempY = y; isSlide = false;
     
     %if need to slide down
-    if strcmp( movement, 'down') == 1
+    if strcmp(movement, 'down') == 1
         while board(tempX, tempY) == myMark
             isSlide = true;
             tempX = tempX + 1;

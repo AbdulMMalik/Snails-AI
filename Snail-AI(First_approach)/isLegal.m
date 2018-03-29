@@ -1,5 +1,4 @@
 function [ islegal, movement ] = isLegal(board, x, y, turn)
-    
     movement = 'wrongMove';
     if turn == 22
         myMark = 2;

@@ -8,7 +8,7 @@ imshow( grid );
 
 turn = 11;
 agentTurn = 22;
-depth = 5;
+depth = 8;
 
 % initially agent score and opponent score is 1
 scoreOpp = 1;
@@ -23,29 +23,30 @@ while 1
       x = floor(temp/100)+1;
       
       [xx, yy] = find (board == 11);
-      [ islegal, movement ] = isLegal(board, x, y, 11);
+      [ islegal, movement ] = isLegal(board, x, y, 11); % if its a legal move
       if ( islegal == false )
           msgbox('Invalid Input', 'Error','error')    
       else
           board(xx, yy) = 1;
-          %check sliding
-          [ x, y ] = slideSnail( board, x, y, turn, movement );
+          [ x, y ] = slideSnail( board, x, y, turn, movement );% slide snail if possible
           if board(x, y) ~= 1
               scoreOpp = scoreOpp + 1;
           end
           board(x, y) = 11;
-          turn = changeTurn(turn);
+          turn = changeTurn(turn); % change turn
       end
    % if it is agent move
    else
       [ board, value, scoreAgent ] = searchTree( board, turn, agentTurn, depth, scoreAgent, scoreOpp );
-      turn = changeTurn(turn);
+      % [ board, scoreAgent ] = findOptimalMove( board, turn, agentTurn, scoreAgent, scoreOpp ); % find optimal move using heuristic
+      turn = changeTurn(turn); % chagne turn
    end
    
-   grid = boardToGrid(board);
-   imshow(grid);
+   grid = boardToGrid(board); % convert board to grid
+   imshow(grid); % showing grid
    
-   score = gameStatus( board, agentTurn );
+   % stop game if no possible move
+   score = gameStatus( board, agentTurn ); 
    if score ==  10 || score == -10
        if score == 10
            disp('agent won');

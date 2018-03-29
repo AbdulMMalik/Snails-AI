@@ -4,16 +4,16 @@ function [ nextBoard, value, myScore ] = searchTree(board, turn, agentTurn, dept
     [ score ] = gameStatus( board, agentTurn );
     if ( score == 10 || score == -10 || depth == 0 )
         nextBoard = board;
-        %stepDistance = findShortestPath( board, agentTurn );
         if turn ~= agentTurn
-            % scoreAgent = value;
+            myScore = scoreOpp;
             value = scoreOpp;
-            myScore = value;
         else
-            %scoreAgent = value;
+            myScore = scoreAgent;
             value = scoreAgent;
-            myScore = value;
         end
+        
+        min_steps = findShortestPath( board, agentTurn );
+        value = value + (1/min_steps) + score; 
         return;
     end
     
@@ -27,20 +27,22 @@ function [ nextBoard, value, myScore ] = searchTree(board, turn, agentTurn, dept
     for i=1:l
         % nextTurn = changeTurn( turn );
         if nextTurn ~= agentTurn
-            [ bestBoard, resultValue, _ ] = searchTree( children(:, :, i), nextTurn, agentTurn, depth, scores(1, i), scoreOpp );
+            [ bestBoard, resultValue, NaN ] = searchTree( children(:, :, i), nextTurn, agentTurn, depth, scores(1, i), scoreOpp );
         else
-            [ bestBoard, resultValue, myScoreAgent ] = searchTree( children(:, :, i), nextTurn, agentTurn, depth, scoreAgent, scores(1, i) );
+            [ bestBoard, resultValue, NaN ] = searchTree( children(:, :, i), nextTurn, agentTurn, depth, scoreAgent, scores(1, i) );
         end
-        % valuesList(1, i) = resultValue;
+        valuesList(1, i) = resultValue;
     end
     
     if( turn == agentTurn )
-        [ min_max index ] = max(scores);
+        [ min_max_score, dummy ] = max(scores);
+        [ min_max_value, index ] = max(valuesList);
     else
-        [ min_max index ] = min(scores);
+        [ min_max_score, dummy ] = max(scores);
+        [ min_max_value, index ] = max(valuesList);
     end
     nextBoard = children(:, :, index);
-    myScore = min_max;
-    value = min_max; 
+    myScore = min_max_score;
+    value = min_max_value; 
 end
 

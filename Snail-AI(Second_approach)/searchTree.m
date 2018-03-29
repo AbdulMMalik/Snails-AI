@@ -11,6 +11,9 @@ function [ nextBoard, value, myScore ] = searchTree(board, turn, agentTurn, dept
             myScore = scoreAgent;
             value = scoreAgent;
         end
+        
+        maxScore = generateHeuristic( board, turn );
+        value = value + maxScore + score; 
         return;
     end
     
@@ -28,16 +31,18 @@ function [ nextBoard, value, myScore ] = searchTree(board, turn, agentTurn, dept
         else
             [ bestBoard, resultValue, NaN ] = searchTree( children(:, :, i), nextTurn, agentTurn, depth, scoreAgent, scores(1, i) );
         end
-        % valuesList(1, i) = resultValue;
+        valuesList(1, i) = resultValue;
     end
     
     if( turn == agentTurn )
-        [ min_max index ] = max(scores);
+        [ min_max_score, dummy ] = max(scores);
+        [ min_max_value, index ] = max(valuesList);
     else
-        [ min_max index ] = min(scores);
+        [ min_max_score, dummy ] = max(scores);
+        [ min_max_value, index ] = max(valuesList);
     end
     nextBoard = children(:, :, index);
-    myScore = min_max;
-    value = min_max; 
+    myScore = min_max_score;
+    value = min_max_value; 
 end
 
