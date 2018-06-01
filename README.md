@@ -1,0 +1,1 @@
+Snail is a game that can be played between human and an AI agent. AI of snail game is implemented in MATLAB. Different approaches have been applied to make AI agent look more smarter than human. Techniques used in the implementation of AI include min-max algrithm, A* algorithm etc.
